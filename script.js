@@ -1,0 +1,11 @@
+const nav=document.querySelector('.nav'), menu=document.querySelector('.menu'), progress=document.querySelector('.progress'), back=document.querySelector('.back');
+menu?.addEventListener('click',()=>nav.classList.toggle('open'));
+document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight; if(progress) progress.style.width=(h?scrollY/h*100:0)+'%'; if(back) back.classList.toggle('show',scrollY>600)},{passive:true});
+back?.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+document.querySelectorAll('img').forEach(img=>{img.loading=img.loading||'lazy';img.addEventListener('error',()=>{img.onerror=null;img.src='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#171c16"/><circle cx="950" cy="120" r="260" fill="#26301f"/><path d="M0 650 Q300 430 580 610 T1200 500 V800 H0Z" fill="#0d120d"/><text x="70" y="700" fill="#c6ff2e" font-family="Arial" font-size="42" font-weight="700">FITZONE FITNESS</text></svg>`)});});
+document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+const form=document.querySelector('[data-demo-form]'); if(form) form.addEventListener('submit',e=>{e.preventDefault(); const msg=form.querySelector('.form-message'); if(msg) msg.textContent='Thank you. Your enquiry has been captured for this demo. Our team will contact you shortly.'; form.reset(); const t=document.querySelector('.toast'); t?.classList.add('show'); setTimeout(()=>t?.classList.remove('show'),3200)});
+const modal=document.querySelector('.modal'); document.querySelectorAll('[data-open-modal]').forEach(b=>b.addEventListener('click',()=>modal?.classList.add('show'))); document.querySelectorAll('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>modal?.classList.remove('show'))); modal?.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
